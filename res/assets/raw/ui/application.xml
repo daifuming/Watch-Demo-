@@ -1,5 +1,6 @@
 <window anim_hint="vtranslate">
-    <slide_view x="0" y="0" h="100%" w="100%">
+    <button name="close" x="0" y="top" h="10%" w="100%" />
+    <slide_view x="0" y="buttom" h="90%" w="100%">
         <view />
         <view />
     </slide_view>
