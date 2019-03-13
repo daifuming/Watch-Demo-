@@ -1,0 +1,6 @@
+<window anim_hint="vtranslate">
+    <slide_view x="0" y="0" h="100%" w="100%">
+        <view />
+        <view />
+    </slide_view>
+</window>
