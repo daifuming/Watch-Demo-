@@ -1,6 +1,6 @@
-<window >
-    <time_clock name="time_click" x="c" y="m" w="80%" h="80%" bg_image="clock_bg" image="clock" hour_image="clock_hour" minute_image="clock_minute" second_image="clock_second" />
-    <button name="application" x="c" y="buttom" w="100%" h="10%" text="application" />
-    <button name="weather" x="right" y="top" w="20%" h="20%" text="weather"/>
-    <button name="health" x="left" y="top" w="20%" h="20%" text="health"/>
+<window style="black">
+    <time_clock name="time_click" x="c" y="m" w="80%" h="80%" bg_image="clock_bg_white" image="clock" hour_image="clock_hour" minute_image="clock_minute" second_image="clock_second" />
+    <button name="application" style="black_bg" x="c" y="buttom" w="100%" h="10%" text="application" />
+    <button name="weather" style="black_bg" x="right" y="top" w="20%" h="20%" text="weather"/>
+    <button name="health" style="black_bg" x="left" y="top" w="20%" h="20%" text="health"/>
 </window>

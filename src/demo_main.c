@@ -36,11 +36,23 @@ int main(void) {
 #endif
 
   int lcd_w = 400;
-  int lcd_h = 384;
+  int lcd_h = 400;
 #if defined(LCD_W) && defined(LCD_H)
   lcd_w = LCD_W;
   lcd_h = LCD_H;
 #endif
+
+
+#if defined(WIN32)
+#if !defined(NDEBUG)    // 显示debug窗口
+  {
+    AllocConsole();
+    FILE* fp = NULL;
+    freopen_s(&fp, "CONOUT$", "w+t", stdout);
+  }
+#endif /*NDEBUG*/
+#endif /*WIN32*/
+
 
 #ifdef WITH_FS_RES
   char res_root[MAX_PATH + 1];
@@ -73,6 +85,9 @@ int main(void) {
 
   /* 初始化扩展控件 */
   tk_ext_widgets_init();
+
+  /* 初始化自定义控件 */
+  custom_widgets_init();
 
   /* 打开主屏幕 */
   application_init();

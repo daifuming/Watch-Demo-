@@ -36,6 +36,7 @@ static ret_t on_application(void* ctx, event_t* e){
   (void)e;
   (void)ctx;
 
+  log_debug("click application button\n");
   return open_application_window();
 }
 
@@ -43,6 +44,8 @@ static ret_t on_application(void* ctx, event_t* e){
  * 点击weather按钮，创建weather窗口
  * */
 static ret_t on_weather(void* ctx, event_t* e){
+
+  log_debug("click weather button\n");
   return RET_FAIL;
 }
 
@@ -50,6 +53,8 @@ static ret_t on_weather(void* ctx, event_t* e){
  * 点击health按钮，创建health窗口
  * */
 static ret_t on_health(void* ctx, event_t* e){
+
+  log_debug("click health button\n");
   return RET_FAIL;
 }
 
@@ -83,9 +88,8 @@ static ret_t init_widget(void* ctx, const void* iter)
  * 初始化
  */
 void application_init() {
-  widget_t* win = window_open("main");
-  if (win){   
-
+  widget_t* win = window_open("application");
+  if (win){
     init_children_widget(win);
   }
 }

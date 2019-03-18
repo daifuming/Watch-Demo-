@@ -6,5 +6,7 @@ env=DefaultEnvironment().Clone()
 BIN_DIR='../bin'
 
 src_files = glob.glob('*.c')
+src_files += glob.glob('custom_widgets/*.c')
+src_files += glob.glob('custom_widgets/*,h')
 
 env.Program(os.path.join(BIN_DIR, 'demo'), src_files);

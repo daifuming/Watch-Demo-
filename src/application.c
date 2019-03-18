@@ -18,6 +18,8 @@ static ret_t init_widget(void* ctx, const void* iter){
             widget_on(widget, EVT_CLICK, on_close, win);
         }
     }
+
+    return RET_OK;
 }
 
 static void init_children_widget(widget_t* widget){

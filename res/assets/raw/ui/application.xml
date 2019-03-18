@@ -1,7 +1,5 @@
-<window anim_hint="vtranslate">
-    <button name="close" x="0" y="top" h="10%" w="100%" />
-    <slide_view x="0" y="buttom" h="90%" w="100%">
-        <view />
-        <view />
-    </slide_view>
+<window anim_hint="vtranslate" style="black">
+    <!-- <health_circle x="c" y="m" w="100%" h="100%" 
+        animation="value_b(from=0, to=60, duration=3000, easing=sin_inout);value_m(from=0, to=40, duration=3000, easing=sin_inout);value_s(from=0, to=20, duration=3000, easing=sin_inout)" /> -->
+    <hour_weather x="c" y="m" w="100%" h="100%" />
 </window>

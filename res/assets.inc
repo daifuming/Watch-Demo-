@@ -16,21 +16,38 @@
 #include "assets/inc/ui/kb_uint.data"
 #include "assets/inc/ui/main.data"
 #ifdef WITH_STB_IMAGE
+#include "assets/inc/images/0.res"
+#include "assets/inc/images/1.res"
+#include "assets/inc/images/10.res"
+#include "assets/inc/images/11.res"
+#include "assets/inc/images/2.res"
+#include "assets/inc/images/3.res"
+#include "assets/inc/images/4.res"
+#include "assets/inc/images/5.res"
+#include "assets/inc/images/6.res"
+#include "assets/inc/images/7.res"
+#include "assets/inc/images/8.res"
+#include "assets/inc/images/9.res"
 #include "assets/inc/images/backspace.res"
 #include "assets/inc/images/clock.res"
 #include "assets/inc/images/clock_bg.res"
+#include "assets/inc/images/clock_bg_white.res"
 #include "assets/inc/images/clock_hour.res"
 #include "assets/inc/images/clock_minute.res"
 #include "assets/inc/images/clock_second.res"
 #include "assets/inc/images/earth.res"
+#include "assets/inc/images/music-1.res"
+#include "assets/inc/images/music.res"
 #include "assets/inc/images/shift.res"
 #include "assets/inc/images/shifton.res"
+#include "assets/inc/images/weather_no_data.res"
 #else
 #endif/*WITH_STB_IMAGE*/
 #ifdef WITH_STB_FONT
 #ifdef WITH_MINI_FONT
 #include "assets/inc/fonts/default.mini.res"
 #else/*WITH_MINI_FONT*/
+#include "assets/inc/fonts/default.res"
 #endif/*WITH_MINI_FONT*/
 #else/*WITH_STB_FONT*/
 #endif/*WITH_STB_FONT*/
@@ -53,15 +70,31 @@ ret_t assets_init(void) {
 #ifdef WITH_STB_FONT
   assets_manager_add(rm, font_default);
 #endif
+  assets_manager_add(rm, image_0);
+  assets_manager_add(rm, image_1);
+  assets_manager_add(rm, image_10);
+  assets_manager_add(rm, image_11);
+  assets_manager_add(rm, image_2);
+  assets_manager_add(rm, image_3);
+  assets_manager_add(rm, image_4);
+  assets_manager_add(rm, image_5);
+  assets_manager_add(rm, image_6);
+  assets_manager_add(rm, image_7);
+  assets_manager_add(rm, image_8);
+  assets_manager_add(rm, image_9);
   assets_manager_add(rm, image_backspace);
   assets_manager_add(rm, image_clock);
   assets_manager_add(rm, image_clock_bg);
+  assets_manager_add(rm, image_clock_bg_white);
   assets_manager_add(rm, image_clock_hour);
   assets_manager_add(rm, image_clock_minute);
   assets_manager_add(rm, image_clock_second);
   assets_manager_add(rm, image_earth);
+  assets_manager_add(rm, image_music-1);
+  assets_manager_add(rm, image_music);
   assets_manager_add(rm, image_shift);
   assets_manager_add(rm, image_shifton);
+  assets_manager_add(rm, image_weather_no_data);
   assets_manager_add(rm, style_default);
   assets_manager_add(rm, style_keyboard);
   assets_manager_add(rm, ui_application);
