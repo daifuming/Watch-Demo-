@@ -25,6 +25,9 @@ typedef struct _hour_weather_t {
   // private
   int32_t temp[11];   // 温度
   int8_t weather[11]; // 天气
+
+  bool_t pressed;
+  float_t point_rad;    // 指示点的弧度
 } hour_weather_t;
 
 widget_t* hour_weather_create(widget_t* parent, xy_t x, xy_t y, wh_t w, wh_t h);
