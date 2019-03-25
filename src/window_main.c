@@ -88,7 +88,8 @@ static ret_t init_widget(void* ctx, const void* iter)
  * 初始化
  */
 void application_init() {
-  widget_t* win = window_open("application");
+  widget_t* win = window_open("message");
+
   if (win){
     init_children_widget(win);
   }

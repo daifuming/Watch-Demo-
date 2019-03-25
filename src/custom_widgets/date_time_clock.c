@@ -7,7 +7,7 @@
 #include "date_time_clock.h"
 
 static ret_t date_time_clock_on_paint_self(widget_t* widget, canvas_t* c) {
-  
+  return RET_OK;
 }
 
 static const char* s_date_time_clock_clone_properties[] = {DATE_TIME_PROP_DATE_COLOR,

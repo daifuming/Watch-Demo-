@@ -41,12 +41,12 @@ static void draw_clock_number(widget_t* widget, vgcanvas_t* vg, int32_t start, f
     // log_debug("cal num str is %s\n", str);
 
     // 填写数字
-    vgcanvas_set_font_size(vg, hour_weather->width-2);
+    vgcanvas_set_font_size(vg, hour_weather->width-3);
     vgcanvas_set_font(vg, "defualt.mini");
     vgcanvas_set_fill_color(vg, color_init(0xff, 0xff, 0xff, 0xff));
     text_width = vgcanvas_measure_text(vg, str);
     // log_debug("text_width is %f\n", text_width);
-    vgcanvas_translate(vg, -text_width/2, -hour_weather->width/2);
+    vgcanvas_translate(vg, -text_width/2, -(hour_weather->width-3)/2);
     vgcanvas_fill_text(vg, str, 0, 0, 100);
 
     vgcanvas_restore(vg);
@@ -127,7 +127,7 @@ static ret_t hour_weather_on_paint_self(widget_t* widget, canvas_t* c) {
   vgcanvas_translate(vg, bar_r*cos(hour_weather->point_rad), 
                      bar_r*sin(hour_weather->point_rad));
   vgcanvas_begin_path(vg);
-  vgcanvas_ellipse(vg, 0, 0, hour_weather->width/2-2, hour_weather->width/2-2);
+  vgcanvas_ellipse(vg, 0, 0, hour_weather->width/2-1, hour_weather->width/2-1);
   vgcanvas_set_fill_color(vg, hour_weather->point_color);
   vgcanvas_fill(vg);
   vgcanvas_restore(vg);
@@ -183,20 +183,22 @@ static uint8_t hour_health_get_click_select(widget_t* widget, xy_t x_f, xy_t y_f
   return select;
 }
 
-static void on_change_select(widget_t* widget, uint8_t select_old) {
+static void on_change_select(widget_t* widget) {
   hour_weather_t* hour_weather = HOUR_WEATHER(widget);
   return_if_fail(widget != NULL);
-
+  // 销毁动画
+  widget_destroy_animator(widget, NULL);
   // 计算弧度值
-  float_t change_rad = (hour_weather->selected - select_old)*M_PI/6;
+  float_t change_rad = (hour_weather->selected-5)*M_PI/6;
   char param[128] = {0};
-  tk_snprintf(param, 128, "point_rad(from=%f, to=%f, duration=500, easing=linear)", 
-              hour_weather->point_rad, hour_weather->point_rad+change_rad);
-  widget_create_animator(widget, param);
+  tk_snprintf(param, 128, "point_rad(from=%f, to=%f, duration=300, easing=linear)", 
+              hour_weather->point_rad, change_rad);
+  log_debug("from %f, to %f\n",hour_weather->point_rad, change_rad );
+  
 
   // 更新widget的弧度值
-  hour_weather->point_rad = M_PI/6*(hour_weather->selected-5);
-
+  hour_weather->point_rad = change_rad;
+  widget_create_animator(widget, param);
 }
 
 static ret_t hour_weather_on_event(widget_t* widget, event_t* e) {
@@ -218,10 +220,9 @@ static ret_t hour_weather_on_event(widget_t* widget, event_t* e) {
       // 获取点击的点代表的区域
       xy_t x_c = point.x - widget->w/2;
       xy_t y_c = point.y - widget->h/2;
-      uint8_t select_old = hour_weather->selected;
       hour_weather->selected = hour_health_get_click_select(widget, x_c, y_c);
 
-      on_change_select(widget, select_old);
+      on_change_select(widget);
       hour_weather->pressed = FALSE;
 
       break;
@@ -229,6 +230,8 @@ static ret_t hour_weather_on_event(widget_t* widget, event_t* e) {
     default:
       break;
   }
+
+  return RET_OK;
 }
 
 ret_t hour_weather_set_point_rad(widget_t* widget, float_t rad) {

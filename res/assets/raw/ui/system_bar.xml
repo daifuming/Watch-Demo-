@@ -1,0 +1,4 @@
+<system_bar h="22">
+  <button style="icon" name="return" x="10" y="m" w="100" h="100%"  text="返回" />
+  <label style="day_week" x="right:10" y="m" w="100" h="100%" text="12 周三" />
+</system_bar>

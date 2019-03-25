@@ -1,0 +1,10 @@
+<window style="black">
+      
+  <label x="right:33" y="0" w="100" h="50" style="day_week" text="12 周三" />
+  <circle_button x="33" y="50" w="80" h="80" bg_color="#153946" image="qingtian_48" />
+  <label x="right:33" y="50" w="254" h="80" style="digit_clock" text="10:09" />
+
+  <circle_button x="33" y="287" w="80" h="80" bg_color="#097F50" image="huxi" />
+  <circle_progress x="c" y="287" w="80" h="80" mark="AQI" />
+  <circle_button x="right:33" y="287" w="80" h="80" image="run_icon" />
+</window>

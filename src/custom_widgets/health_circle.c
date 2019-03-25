@@ -121,6 +121,8 @@ static ret_t health_circle_on_paint_self(widget_t* widget, canvas_t* c) {
   health_circle_t* health_circle = HEALTH_CIRCLE(widget);
   float_t rr = widget->w/2 > widget->h/2 ? widget->h/2 : widget->w/2;
 
+  vgcanvas_save(vg);
+  vgcanvas_translate(vg, c->ox, c->oy);
   vgcanvas_set_line_width(vg, health_circle->width);
   vgcanvas_translate(vg, widget->w/2, widget->h/2);
   vgcanvas_set_line_cap(vg, "round");
@@ -180,6 +182,7 @@ static ret_t health_circle_on_paint_self(widget_t* widget, canvas_t* c) {
                (health_circle->value_s/health_circle->max_s) * 2*M_PI - 0.5*M_PI,
                FALSE);
   vgcanvas_stroke(vg);
+  vgcanvas_restore(vg);
   vgcanvas_restore(vg);
 
   return RET_OK;

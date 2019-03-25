@@ -1,0 +1,8 @@
+<button>
+  <style name="icon" icon="return_pink"   text_color="red">
+    <normal     bg_color="#f0f0f0" />
+    <pressed    bg_color="#c0c0c0" x_offset="3" y_offset="3" />
+    <over       bg_color="#e0e0e0" />
+    <disable    bg_color="gray" text_color="#d0d0d0" />
+  </style>
+</button>

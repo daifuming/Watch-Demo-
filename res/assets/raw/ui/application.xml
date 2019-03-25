@@ -1,5 +1,18 @@
-<window anim_hint="vtranslate" style="black">
+<window anim_hint="vtranslate" style="black" >
     <!-- <health_circle x="c" y="m" w="100%" h="100%" 
         animation="value_b(from=0, to=60, duration=3000, easing=sin_inout);value_m(from=0, to=40, duration=3000, easing=sin_inout);value_s(from=0, to=20, duration=3000, easing=sin_inout)" /> -->
-    <hour_weather x="c" y="m" w="100%" h="100%" />
+    <!-- <hour_weather x="c" y="m" w="100%" h="100%" /> -->
+    <!-- <scroll_weather x="c" y="m" w="100%" h="100%" /> -->
+    <!-- <circle_button_with_progress image="music_icon" x="200" y="200" w="15%" h="15%" /> -->
+    <!-- <circle_progress mark="AQI" x="200" y="200" w="50" h="50" 
+     animation="value(from=0, to=32, duration=3000, easing=sin_inout)" /> -->
+    <image name="clock_bg_red" image="clock_bg_red" x="0" y="0" w="100%" h="100%" />
+    <!-- <image image="run_icon" x="c" y="240" w="80" h="80" /> -->
+    <circle_button image="run_icon" x="c" y="240" w="80" h="80" />
+    <circle_progress mark="AQI" x="c" y="80" w="80" h="80" 
+     animation="value(from=0, to=45, duration=3000, easing=sin_inout)" />
+    <health_circle x="80" y="m" w="80" h="80" width="10"
+     animation="value_b(from=0, to=60, duration=3000, easing=sin_inout);value_m(from=0, to=40, duration=3000, easing=sin_inout);value_s(from=0, to=20, duration=3000, easing=sin_inout)" />
+    <circle_button_with_progress image="music_icon" x="240" y="m" w="80" h="80" 
+     animation="value(from=0, to=80, duration=3000, easing=sin_inout)" />
 </window>

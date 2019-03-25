@@ -70,15 +70,12 @@ ret_t circle_button_with_progress_set_image(widget_t* widget, const char* image)
   return_value_if_fail(cbp != NULL, RET_BAD_PARAMS);
 
 
-  log_debug("set image--input image name:%s\n", image);
+  // log_debug("set image--input image name:%s\n", image);
   cbp->image = (char*)malloc(strlen(image)+1);
   memset(cbp->image, 0, strlen(image)+1);
   strcpy(cbp->image, image);
+  cbp->center_is_image = TRUE;
   // cbp->image = tk_str_copy(cbp->image, image);
-  if (cbp->image != NULL)
-    log_debug("set image--cbp image name:%s\n", cbp->image);
-  else
-    log_debug("cbp->image is NULL\n");
 
   return widget_invalidate(widget, NULL);
 }
@@ -160,62 +157,35 @@ static ret_t circle_button_with_progress_on_paint_self(widget_t* widget, canvas_
   vgcanvas_t* vg = canvas_get_vgcanvas(c);
   circle_button_with_progress_t* circle_button_with_progress = CIRCLE_BUTTON_WITH_PROGRESS(widget);
 
-
-  log_debug("get image name:%s\n", circle_button_with_progress->image);
-  bitmap_t img;
-  bool_t has_image = widget_load_image(widget, circle_button_with_progress->image, &img) == RET_OK;
-
   // 当前值超过最大值时设置为最大值
   if (circle_button_with_progress->value > circle_button_with_progress->max) {
     circle_button_with_progress->value = circle_button_with_progress->max;
   }
-  log_debug("value is:%f, max is:%f\n", circle_button_with_progress->value, circle_button_with_progress->max);
 
   // 有图片/透明度的时候的画法
-  if (vg != NULL && has_image) {
-    xy_t center_x = widget->w/2;
-    wh_t center_y = widget->h/2;
-    // float_t end_angle = 0;
-    float_t r = 0;
-    bool_t ccw = circle_button_with_progress->counter_clock_wise;
-    // float_t start_angle = TK_D2R(circle_button_with_progress->start_angle);   // 角度转化成弧度
-    // float_t angle = (M_PI * 2 * circle_button_with_progress->value) / circle_button_with_progress->max; // 弧度差
-  
-    // // 根据顺逆时针进行最终角度的调整
-    // if (ccw) {
-    //   end_angle = start_angle - angle + M_PI * 2;
-    // } else {
-    //   end_angle = start_angle + angle;
-    // }
+  vgcanvas_save(vg);
+  if (circle_button_with_progress->center_is_image) {
+    xy_t center_x = vg->w/2;
+    wh_t center_y = vg->h/2;
 
-    // calculate circle/rect w&h
     float_t dr =  (widget->w - 2*circle_button_with_progress->width) / 2;  // 中心圆部分的半径
     float_t dw = dr*2;    // 中心矩形的长宽
 
     // draw center circle
+    vgcanvas_translate(vg, c->ox, c->oy);
     vgcanvas_save(vg);
-    bitmap_t image;
     if (circle_button_with_progress->image != NULL) {
+      bitmap_t image;
       widget_load_image(widget, circle_button_with_progress->image, &image);
-      
-      // if (!circle_button_with_progress->zoom) {
-      //   vgcanvas_translate(vg, (widget->w-image.w)/2, (widget->h-image.h)/2);
-      //   vgcanvas_draw_image(vg, &image, 0, 0, image.w, image.h, 0, 0, image.w, image.h);
-      // } else {
-      //   vgcanvas_translate(vg, circle_button_with_progress->width, circle_button_with_progress->width);
-      //   vgcanvas_draw_image(vg, &image, 0, 0, image.w, image.h, 0, 0, dw, dw);
-      // }
 
       vgcanvas_translate(vg, widget->w/2, widget->h/2);
+      vgcanvas_begin_path(vg);
       vgcanvas_ellipse(vg, 0, 0, dr+1, dr+1);
-      vgcanvas_translate(vg, -widget->w/2+circle_button_with_progress->width, -widget->h/2+circle_button_with_progress->width);
-      vgcanvas_paint(vg, FALSE, &image);
+      vgcanvas_translate(vg, -image.w/2, -image.h/2);
+      vgcanvas_draw_image(vg, &image, 0, 0, image.w, image.h, 0, 0, image.w, image.h);
     } else {
       vgcanvas_translate(vg, widget->w/2, widget->h/2);
       vgcanvas_begin_path(vg);
-      vgcanvas_ellipse(vg, 0, 0, dr, dr);
-      vgcanvas_set_fill_color(vg, circle_button_with_progress->text_bg_color);
-      vgcanvas_fill(vg);
 
       // draw text
       float text_width = dw;
@@ -255,6 +225,7 @@ static ret_t circle_button_with_progress_on_paint_self(widget_t* widget, canvas_
     vgcanvas_stroke(vg);
     vgcanvas_restore(vg);
   }
+  vgcanvas_restore(vg);
 
   return RET_OK;
 }
@@ -346,7 +317,6 @@ static const widget_vtable_t s_circle_button_with_progress_vtable = {
 
 
 widget_t* circle_button_with_progress_create(widget_t* parent, xy_t x, xy_t y, wh_t w, wh_t h) {
-
   // 申请内存构建widget
   circle_button_with_progress_t* circle_button_with_progress = TKMEM_ZALLOC(circle_button_with_progress_t);
   widget_t* widget = WIDGET(circle_button_with_progress);
@@ -357,7 +327,7 @@ widget_t* circle_button_with_progress_create(widget_t* parent, xy_t x, xy_t y, w
 
   // 设置默认值
   circle_button_with_progress->center_is_image = TRUE;
-  circle_button_with_progress->text = "text";
+  circle_button_with_progress->text = NULL;
   circle_button_with_progress->text_color = color_init(0x00, 0x00, 0x00, 0xff);
   circle_button_with_progress->text_bg_color = color_init(0xff, 0xff, 0xff, 0xff);
   circle_button_with_progress->text_size = 16;

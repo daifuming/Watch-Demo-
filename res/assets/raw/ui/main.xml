@@ -1,6 +1,14 @@
-<window style="black">
-    <time_clock name="time_click" x="c" y="m" w="80%" h="80%" bg_image="clock_bg_white" image="clock" hour_image="clock_hour" minute_image="clock_minute" second_image="clock_second" />
-    <button name="application" style="black_bg" x="c" y="buttom" w="100%" h="10%" text="application" />
-    <button name="weather" style="black_bg" x="right" y="top" w="20%" h="20%" text="weather"/>
-    <button name="health" style="black_bg" x="left" y="top" w="20%" h="20%" text="health"/>
+<window anim_hint="vtranslate" style="black" >
+    <image name="clock_bg_red_image" image="clock_bg_red" x="0" y="0" w="100%" h="100%" />
+    <circle_button name="open:sport" image="run_icon" x="c" y="240" w="80" h="80" >
+        <image image="run_icon" />
+    </circle_button>
+    <circle_progress name="open:AQI" mark="AQI" x="c" y="80" w="80" h="80" 
+     animation="value(from=0, to=45, duration=3000, easing=sin_inout)" />
+    <health_circle name="open:health" x="80" y="m" w="80" h="80" width="10"
+     animation="value_b(from=0, to=60, duration=3000, easing=sin_inout);value_m(from=0, to=40, duration=3000, easing=sin_inout);value_s(from=0, to=20, duration=3000, easing=sin_inout)" />
+    <circle_button_with_progress name="open:music" image="music_icon" x="240" y="m" w="80" h="80" 
+     animation="value(from=0, to=80, duration=3000, easing=sin_inout)" />
+    
+     <!-- <hour_weather x="0" y="0" w="100%" h="100%" /> -->
 </window>
