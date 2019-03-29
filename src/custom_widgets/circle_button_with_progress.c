@@ -183,7 +183,7 @@ static ret_t circle_button_with_progress_on_paint_self(widget_t* widget, canvas_
       vgcanvas_ellipse(vg, 0, 0, dr+1, dr+1);
       vgcanvas_translate(vg, -image.w/2, -image.h/2);
       vgcanvas_draw_image(vg, &image, 0, 0, image.w, image.h, 0, 0, image.w, image.h);
-    } else {
+    } else if (circle_button_with_progress->text != NULL) {
       vgcanvas_translate(vg, widget->w/2, widget->h/2);
       vgcanvas_begin_path(vg);
 

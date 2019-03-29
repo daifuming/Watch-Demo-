@@ -5,4 +5,29 @@
     <over       bg_color="#e0e0e0" />
     <disable    bg_color="gray" text_color="#d0d0d0" />
   </style>
+
+  <style name="alarm_clock_bg"  >
+    <normal      bg_image="alarm_clock_bg" />
+    <pressed     bg_image="alarm_clock_bg" />
+    <over        bg_image="alarm_clock_bg" />
+  </style>
+
+  <style name="alarm_set"  >
+    <normal      bg_image="alarm_set" />
+    <pressed     bg_image="alarm_set" />
+    <over        bg_image="alarm_set" />
+  </style>
+
+  <style name="alarm_cancel"  >
+    <normal      bg_image="alarm_cancel" />
+    <pressed     bg_image="alarm_cancel" />
+    <over        bg_image="alarm_cancel" />
+  </style>
+
+  <style name="none"  >
+    <normal      bg_color="#000000" />
+    <pressed     bg_color="#000000" />
+    <over        bg_color="#000000" />
+  </style>
+  
 </button>

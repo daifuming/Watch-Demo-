@@ -39,15 +39,6 @@
     <over       bg_color="#e0e0e0" />
     <disable    bg_color="gray" text_color="#d0d0d0" />
   </style>
-
-  <!-- custom button style -->
-  <style name="black_bg" border="0">
-    <normal     bg_color="#000000" text_color="#ffffff" />
-    <pressed    bg_color="#000000" text_color="#ffffff"/>
-    <over       bg_color="#000000" text_color="#ffffff" />
-    <disable    bg_color="#000000" text_color="#ffffff" />
-  </style>
-  <!-- custom button style -->
   
   <style name="combobox_down" border_color="#a0a0a0">
     <normal     bg_color="#f0f0f0" icon="arrow_down_n"/>
@@ -114,12 +105,73 @@
   </style>
 
 <!-- custom style -->
-  <style name="icon" icon="return_pink"   text_color="red" font_name="Deng" font_size="36" >
+  <style name="icon" icon="return_pink"   text_color="#F74F4F" font_name="Deng" font_size="36" >
     <normal      font_size="16" />
     <pressed     icon="return_pink_p" font_size="32" />
     <over        />
     <disable     />
   </style>
+
+  <style name="time_dial"  >
+    <normal      bg_image="clock_bg_red" />
+    <pressed     bg_image="clock_bg_red" />
+    <over        bg_image="clock_bg_red" />
+  </style>
+
+  <style name="none"  >
+    <normal      bg_color="#000000" />
+    <pressed     bg_color="#000000" />
+    <over        bg_color="#000000" />
+  </style>
+
+  <style name="select_time_dial"  >
+    <normal      bg_image="dial_style_digit" />
+    <pressed     bg_image="dial_style_digit" />
+    <over        bg_image="dial_style_digit" />
+  </style>
+
+  <style name="select_digit_dial"  >
+    <normal      bg_image="dial_style_time" />
+    <pressed     bg_image="dial_style_time" />
+    <over        bg_image="dial_style_time" />
+  </style>
+
+  <style name="green_button" font_name="Deng" font_size="12" text_color="0xffffff" >
+    <normal      bg_image="button_green" />
+    <pressed     bg_image="button_green" x_offset="1" y_offset="1" />
+    <over        bg_image="button_green" />
+  </style>
+
+  <style name="gray_button" font_name="Deng" >
+    <normal      bg_image="button_gray" />
+    <pressed     bg_image="button_gray" x_offset="1" y_offset="1" />
+    <over        bg_image="button_gray" />
+  </style>
+
+  <style name="up">
+    <normal      bg_image="calendar_up" />
+    <pressed     bg_image="calendar_up" />
+    <over        bg_image="calendar_up" />
+  </style>
+
+  <style name="current">
+    <normal      bg_image="calendar_current" />
+    <pressed     bg_image="calendar_current" />
+    <over        bg_image="calendar_current" />
+  </style>
+
+  <style name="down">
+    <normal      bg_image="calendar_down" />
+    <pressed     bg_image="calendar_down" />
+    <over        bg_image="calendar_down" />
+  </style>
+
+  <style name="alarmitem_bg"  >
+    <normal      bg_image="alarmitem_bg" />
+    <pressed     bg_image="alarmitem_bg" />
+    <over        bg_image="alarmitem_bg" />
+  </style>
+
 </button>
 
 <edit selected_fg_color="#020202" selected_text_color="#010101" selected_bg_color="#b5d7fd">
@@ -198,6 +250,22 @@
 
   <style name="digit_clock">
     <normal text_color="#ffffff" font_size="86" font_name="Dengb" text_align_h="right" />
+  </style>
+
+  <style name="calendar">
+    <normal font_name="Deng" text_color="white" />
+  </style>
+
+  <style name="calendar_weekend">
+    <normal font_name="Deng" text_color="red" />
+  </style>
+
+  <style name="calendar_today">
+    <normal font_name="Deng" text_color="green" />
+  </style>
+
+  <style name="alarmitem_time">
+    <normal font_name="Deng" text_color="white" font_size="32" text_align_h="left"  />
   </style>
 
 </label>
@@ -466,11 +534,18 @@
   <style name="default" fg_color="#a0a0a0"  text_color="black" text_align_h="center">
     <normal     bg_color="#f0f0f0" />
   </style>
+  
 </text_selector>
+
+<alarm_text_selector>
+  <style name="alarm_select" fg_color="#ffffff" text_color="white" text_align_h="center" font_size="36" >
+    <normal bg_color="#000000" border_color="#000000" />
+  <style />
+</alarm_text_selector>
 
 <switch>
   <style name="default">
-    <normal  bg_image="switch" />
+    <normal  bg_image="switch" fg_image="switch_fg" />
   </style>
   <style name="color" fg_color="#f0f0f0"  bg_color="4ed164" text_color="black">
     <normal />

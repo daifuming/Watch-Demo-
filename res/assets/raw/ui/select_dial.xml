@@ -1,0 +1,12 @@
+<window anim_hint="htranslate" style="black">
+  <slide_view x="c" y="m" w="80%" h="80%" style="dot">
+    <view x="0" y="0" w="100%" h="100%" >
+      <button style="select_digit_dial" x="c" y="top" w="270" h="270" bg_image="dial_style_digit" />
+    </view>
+    <view x="0" y="0" w="100%" h="100%" >
+      <button style="select_time_dial" x="c" y="top" w="270" h="270" bg_image="dial_style_time" />
+    </view>
+  </slide_view>
+  <button name="button:return" style="gray_button" x="80" y="buttom" w="100" h="10%" text="Return" />
+  <button name="button:select_dial" style="green_button" x="right:80" y="buttom" w="100" h="10%" text="Select" />
+</window>

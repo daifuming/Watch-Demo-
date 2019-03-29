@@ -1,0 +1,9 @@
+<window style="black" >
+  <image x="0" y="0" w="100%" h="100%" image="zhoujielun"  />
+  <image x="0" y="0" w="100%" h="100%" image="music_player_bg" />
+  <circle_button_with_progress name="open:music"  x="c" y="m" w="224" h="224" width="24"
+     animation="value(from=0, to=80, duration=3000, easing=sin_inout)" />
+  <image x="c" y="m" w="70" h="70" image="music_stop"/> 
+  <image x="20" y="m" h="70" w="70" image="music_pre" />
+  <image x="right:20" y="m" h="70" w="70" image="music_next" />
+</window>
