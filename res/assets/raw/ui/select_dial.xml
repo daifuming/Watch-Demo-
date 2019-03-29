@@ -1,5 +1,5 @@
 <window anim_hint="htranslate" style="black">
-  <slide_view x="c" y="m" w="80%" h="80%" style="dot">
+  <slide_view name="select:slideview" x="c" y="m" w="80%" h="80%" style="dot">
     <view x="0" y="0" w="100%" h="100%" >
       <button style="select_digit_dial" x="c" y="top" w="270" h="270" bg_image="dial_style_digit" />
     </view>

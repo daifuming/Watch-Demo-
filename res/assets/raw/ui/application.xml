@@ -7,6 +7,6 @@
         <button name="open:alarm" text="Alarm" />
         <button name="open:calendar" text="Calendar" />
         <button name="open:music" text="Music" />
-        <view />
+        <button name="return" text="Cancel" />
     </grid>
 </window>

@@ -30,9 +30,12 @@ static ret_t circle_progress_on_paint_self(widget_t* widget, canvas_t* c) {
   vgcanvas_begin_path(vg);
   vgcanvas_arc(vg, widget->w/2, widget->h/2, r, start_rad, end_rad, FALSE);
   bitmap_t image;
-  if (widget_load_image(widget, "progress_circle", &image) == RET_OK) {
-    vgcanvas_paint(vg, TRUE, &image);
+  if (circle_progress->mark_local) {
+    widget_load_image(widget, "grabient", &image);
   } else {
+    widget_load_image(widget, "progress_circle", &image);
+  }
+  if (vgcanvas_paint(vg, TRUE, &image) != RET_OK) {
     vgcanvas_set_stroke_color(vg, color_init(0xff, 0xff, 0x00, 0xff));
     vgcanvas_stroke(vg);
   }
@@ -48,7 +51,6 @@ static ret_t circle_progress_on_paint_self(widget_t* widget, canvas_t* c) {
   // 弧度转坐标
   float_t value_x = widget->w/2 + r*cos(value_rad);
   float_t value_y = widget->h/2 + r*sin(value_rad);
-  // log_debug("value_rad:%f, value x:%f, value y:%f\n",value_rad, value_x, value_y);
   // 绘制环
   vgcanvas_save(vg);
   vgcanvas_translate(vg, c->ox, c->oy);
@@ -58,7 +60,7 @@ static ret_t circle_progress_on_paint_self(widget_t* widget, canvas_t* c) {
   vgcanvas_set_line_width(vg, circle_progress->line_width/2);
   vgcanvas_stroke(vg);
   vgcanvas_restore(vg);
-
+  
   // 绘制中间数值图案
   if (circle_progress->mark_local == FALSE) {   // 绘制位置为中间/上方
     vgcanvas_save(vg);
@@ -248,9 +250,11 @@ static const widget_vtable_t s_circle_progress_vtable = {.size = sizeof(circle_p
                                                          .on_destroy = circle_progress_on_destroy};
 
 widget_t* circle_progress_create(widget_t* parent, xy_t x, xy_t y, wh_t w, wh_t h) {
-  widget_t* widget = widget_create(parent, &s_circle_progress_vtable, x, y, w, h);
-  circle_progress_t* circle_progress = CIRCLE_PROGRESS(widget);
+  circle_progress_t* circle_progress = TKMEM_ZALLOC(circle_progress_t);
+  widget_t* widget = WIDGET(circle_progress);
   return_value_if_fail(circle_progress != NULL, NULL);
+
+  widget_init(widget, parent, &s_circle_progress_vtable, x, y, w, h);
 
   circle_progress->value = 45;
   circle_progress->max = 100;

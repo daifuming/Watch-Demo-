@@ -26,6 +26,7 @@ static ret_t init_widget(void* ctx, const void* iter);
 static ret_t on_dial_long_pressed(void* ctx, event_t* e);
 ret_t on_open_calendar(void* ctx, event_t* e);
 ret_t on_open_alarm(void* ctx, event_t* e);
+ret_t on_open_weather(void* ctx, event_t* e);
 
 /**
  * 为widget所有控件添加点击事件
@@ -71,6 +72,36 @@ static ret_t on_close_window(void* ctx, event_t* e){
   return RET_OK;
 }
 
+/**
+ * 用于循环切换天气
+ */
+static char* weather_icon[] = {
+  "qingtian_48", "taiyang_48", "yintian_48", "xiaoyu_48"
+};
+
+static ret_t _on_timer_switch_weather(const timer_info_t* timer) {
+  widget_t* image = timer->ctx;
+  static i = 1;
+  if (++i == 4) {
+    i = 0;
+  }
+  widget_set_prop_str(image, "image", weather_icon[i]);
+  widget_set_animation(image, "opacity(from=0,to=255,duration=500)");
+  return RET_OK;
+}
+
+/**
+ * 循环切换天气的图标定时器
+ */
+static ret_t on_timer_switch_weather(const timer_info_t* timer) {
+  
+  widget_t* image = timer->ctx;
+  widget_set_animation(image, "opacity(to=0,duration=500)");
+  timer_add(_on_timer_switch_weather, image, 500);
+
+  return RET_REPEAT;
+}
+
 static void init_digit_dial(widget_t* widget) {
   date_time_t date;
   date_time_init(&date);
@@ -100,30 +131,133 @@ static void init_digit_dial(widget_t* widget) {
   
   widget_t* digit_dial = widget_lookup(widget, "digit_dial", TRUE);
   widget_on(digit_dial, EVT_LONG_PRESS, on_dial_long_pressed, widget );
+
+  // 定时切换天气
+  widget_t* image_weather = widget_lookup(widget, "digit_dial:weather", TRUE);
+  if (image_weather) {
+    timer_add(on_timer_switch_weather, image_weather, 5000);
+  }
+  
 }
 
+
+#include "custom_widgets/circle_progress.h"
+#include "custom_widgets/health_circle.h"
+#include "custom_widgets/circle_button_with_progress.h"
 /**
+ * 为表盘添加控件
+ */
+static void dial_add_widget(widget_t* widget, uint8_t type) {
+  return_if_fail(widget != NULL && type >=0);
+
+  switch (type) {
+    case 0: {
+      widget_use_style(widget, "time_dial");
+
+      widget_t* image_sport_bg = image_create(widget, 0, 0, 0, 0);
+      widget_set_self_layout(image_sport_bg, "default(x=c,y=240,w=80,h=80)");
+      widget_set_prop_str(image_sport_bg, "image", "weather_icon_bg");
+      widget_t* image_sport = image_create(image_sport_bg, 0, 0, 0, 0);
+      widget_set_self_layout(image_sport, "default(x=c,y=m,w=48,h=48)");
+      widget_set_prop_str(image_sport, "image", "run_icon");
+      widget_set_name(image_sport, "open:sport");
+
+      widget_t* circle_prog_AQI = circle_progress_create(widget, 0, 0, 0, 0);
+      widget_set_self_layout(circle_prog_AQI, "default(x=c,y=80,w=80,h=80)");
+      widget_set_prop_str(circle_prog_AQI, "mark", "AQI");
+      widget_set_animation(circle_prog_AQI, "value(from=25, to=75, duration=3000, yoyo_times=0, easing=sin_inout)");
+
+      widget_t* health_circle = health_circle_create(widget, 0, 0, 0, 0);
+      widget_set_self_layout(health_circle, "default(x=80,y=m,w=80,h=80)");
+      widget_set_prop_int(health_circle, "width", 10);
+      widget_set_animation(health_circle, 
+              "value_b(from=0, to=100, duration=10000, repeat_times=0, easing=sin_inout);value_m(from=0, to=80, duration=10000, repeat_times=0, easing=sin_inout);value_s(from=0, to=50, duration=10000, repeat_times=0, easing=sin_inout)");
+      
+      widget_t* cbwp = circle_button_with_progress_create(widget, 0, 0, 0, 0);
+      widget_set_self_layout(cbwp, "default(x=240,y=m,w=80,h=80)");
+      widget_set_prop_str(cbwp, "image", "music_icon");
+      widget_set_animation(cbwp, "value(from=0, to=100, duration=10000, repeat_times=0, easing=linear)");
+      
+      break;
+    }
+    case 1: {
+      widget_use_style(widget, "none");
+      widget_t* label_date = label_create(widget, 0, 0, 0, 0);
+      widget_set_name(label_date, "digit_dial:date");
+      widget_set_self_layout(label_date, "default(x=right:33,y=0,w=100,h=50)");
+      widget_use_style(label_date, "day_week");
+
+      widget_t* image_weather_bg = image_create(widget, 0, 0, 0, 0);
+      widget_set_self_layout(image_weather_bg, "default(x=33,y=50,w=80,h=80)");
+      widget_set_prop_str(image_weather_bg, "image", "weather_icon_bg");
+      widget_t* image_weather = image_create(image_weather_bg, 0, 0, 0, 0);
+      widget_set_self_layout(image_weather, "default(x=c,y=m,w=48,h=48)");
+      widget_set_name(image_weather, "digit_dial:weather");
+      widget_set_prop_str(image_weather, "image", "taiyang_48");
+
+      widget_t* label_time = label_create(widget, 0, 0, 0, 0);
+      widget_set_name(label_time, "digit_dial:time");
+      widget_set_self_layout(label_time, "default(x=right:33,y=50,w=245,h=80)");
+      widget_use_style(label_time, "digit_clock");
+
+      widget_t* image_hx = image_create(widget, 0, 0, 0, 0);
+      widget_set_self_layout(image_hx, "default(x=33,y=287,w=80,h=80)");
+      widget_set_prop_str(image_hx, "image", "weather_icon_bg");
+
+      widget_t* circle_prog = circle_progress_create(widget, 0, 0, 0, 0);
+      widget_set_self_layout(circle_prog, "default(x=c,y=287,w=80,h=80)");
+      widget_set_prop_str(circle_prog, "mark", "AQI");
+      widget_set_animation(circle_prog, "value(from=25, to=75, duration=3000, yoyo_times=0, easing=sin_inout)");
+      
+      widget_t* image_sport = image_create(widget, 0, 0, 0, 0);
+      widget_set_self_layout(image_sport, "default(x=right:33,y=287,w=80,h=80)");
+      widget_set_prop_str(image_sport, "image", "weather_icon_bg");
+
+      init_digit_dial(widget->parent);
+      break;
+    }
+    default: break;
+  }
+}
+
+
+/**
+ * ctx为主窗口
  * 更换表盘
  */
 static ret_t on_dial_select(void* ctx, event_t* e) {
-  widget_t* parent = WIDGET(ctx);
-  widget_t* win = window_open_and_close("digit_dial", parent);
-  init_digit_dial(win);
+  widget_t* win = WIDGET(ctx);
+  widget_t* select_win = widget_get_window(e->target);
+  return_value_if_fail(win != NULL && select_win != NULL, RET_BAD_PARAMS);
+
+  static uint8_t dial_now = 0;
+
+  // 获取用户的选择
+  slide_view_t* select = SLIDE_VIEW(widget_lookup(select_win, "select:slideview", TRUE));
+  log_debug("select:%d\n", select->active);
+  if (select->active != dial_now) {
+    // 更换表盘样式
+    widget_t* button = widget_lookup(win, "clock_bg", TRUE);
+    widget_destroy_children(button);
+    dial_add_widget(button, select->active);
+    dial_now = select->active;
+  }
 
   return RET_OK;
 }
 
 /**
+ * ctx:主界面窗口指针
  * 长按更换表盘
  */
 static ret_t on_dial_long_pressed(void* ctx, event_t* e) {
   log_debug("on_dial_long_pressed!!\n");
-  widget_t* parent = WIDGET(ctx);
   widget_t* win = window_open("select_dial");
+  widget_t* window_mn = window_manager();
   if (win) {
     init_children_widget(win);
     widget_t* select = widget_lookup(win, "button:select_dial", TRUE);
-    widget_on(select, EVT_CLICK, on_dial_select, parent);
+    widget_on(select, EVT_CLICK, on_dial_select, ctx);
   }
   return RET_OK;
 }
@@ -149,7 +283,7 @@ static ret_t open_message() {
 }
 
 /**
- * 表盘右滑事件
+ * 表盘下滑事件
  */
 static ret_t on_dial_slide_bottom(void* ctx, event_t* e) {
   log_debug("on_dial_slide_button!\n");
@@ -167,11 +301,10 @@ static void open_application() {
 }
 
 /**
- * 表盘右滑事件
+ * 表盘左滑事件
  */
-static ret_t on_dial_slide_right(void* ctx, event_t* e) {
+static ret_t on_dial_slide_left(void* ctx, event_t* e) {
   log_debug("on_dial_slide_right!\n");
-  // window_open("application");
   open_application();
   return RET_OK;
 }
@@ -189,7 +322,7 @@ static ret_t init_widget(void* ctx, const void* iter)
       widget_t* win = widget_get_window(widget);
       widget_on(widget, EVT_LONG_PRESS, on_dial_long_pressed, win);
       widget_on(widget, EVT_SLIDE_DOWN, on_dial_slide_bottom, win);
-      widget_on(widget, EVT_SLIDE_RIGHT, on_dial_slide_right, win);
+      widget_on(widget, EVT_SLIDE_LEFT, on_dial_slide_left, win);
     } else if (strstr(name, "return")) {
       widget_t* win = widget_get_window(widget);
       widget_on(widget, EVT_CLICK, on_close_window, win);
@@ -201,7 +334,10 @@ static ret_t init_widget(void* ctx, const void* iter)
       } else if (tk_str_eq(name, "alarm")) {
         widget_t* win = widget_get_window(widget);
         widget_on(widget, EVT_CLICK, on_open_alarm, win);
-      }
+      } else if (tk_str_eq(name, "weather")) {
+        widget_t* win = widget_get_window(widget);
+        widget_on(widget, EVT_CLICK, on_open_weather, win);
+      } 
     }
   }
 

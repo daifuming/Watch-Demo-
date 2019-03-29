@@ -29,6 +29,7 @@
 #include "assets/inc/ui/music_play.data"
 #include "assets/inc/ui/select_dial.data"
 #include "assets/inc/ui/system_bar.data"
+#include "assets/inc/ui/weather.data"
 #ifdef WITH_STB_IMAGE
 #include "assets/inc/images/0.res"
 #include "assets/inc/images/1.res"
@@ -98,7 +99,11 @@
 #include "assets/inc/images/switch_fg.res"
 #include "assets/inc/images/switch_off.res"
 #include "assets/inc/images/switch_on.res"
+#include "assets/inc/images/taiyang_48.res"
+#include "assets/inc/images/weather_icon_bg.res"
 #include "assets/inc/images/weather_no_data.res"
+#include "assets/inc/images/xiaoyu_48.res"
+#include "assets/inc/images/yintian_48.res"
 #include "assets/inc/images/zhoujielun.res"
 #else
 #endif/*WITH_STB_IMAGE*/
@@ -197,7 +202,11 @@ ret_t assets_init(void) {
   assets_manager_add(rm, image_switch_fg);
   assets_manager_add(rm, image_switch_off);
   assets_manager_add(rm, image_switch_on);
+  assets_manager_add(rm, image_taiyang_48);
+  assets_manager_add(rm, image_weather_icon_bg);
   assets_manager_add(rm, image_weather_no_data);
+  assets_manager_add(rm, image_xiaoyu_48);
+  assets_manager_add(rm, image_yintian_48);
   assets_manager_add(rm, image_zhoujielun);
   assets_manager_add(rm, style_button);
   assets_manager_add(rm, style_default);
@@ -225,6 +234,7 @@ ret_t assets_init(void) {
   assets_manager_add(rm, ui_music_play);
   assets_manager_add(rm, ui_select_dial);
   assets_manager_add(rm, ui_system_bar);
+  assets_manager_add(rm, ui_weather);
   assets_manager_add(rm, strings_en_US);
   assets_manager_add(rm, strings_zh_CN);
 #endif

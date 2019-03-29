@@ -105,6 +105,8 @@ static ret_t hour_weather_on_paint_self(widget_t* widget, canvas_t* c) {
   hour_weather_t* hour_weather = HOUR_WEATHER(widget);
   float_t rr = widget->w/2 > widget->h/2 ? widget->h/2 : widget->w/2;
   float_t bar_r = rr/2;
+  vgcanvas_save(vg);
+  vgcanvas_translate(vg, c->ox, c->oy);
 
   /* 绘制弧形背景 */
   vgcanvas_save(vg);
@@ -137,7 +139,7 @@ static ret_t hour_weather_on_paint_self(widget_t* widget, canvas_t* c) {
 
   // 绘制中心温度文字
   draw_temp(widget, vg, hour_weather->time, 0.35*widget->w);
-
+  vgcanvas_restore(vg);
   return RET_OK;
 }
 
@@ -259,11 +261,9 @@ static const widget_vtable_t s_hour_weather_vtable = {.size = sizeof(hour_weathe
                                                       .set_prop = hour_weather_on_set_prop};
 
 widget_t* hour_weather_create(widget_t* parent, xy_t x, xy_t y, wh_t w, wh_t h) {
-  hour_weather_t* hour_weather = TKMEM_ZALLOC(hour_weather_t);
-  widget_t* widget = WIDGET(hour_weather);
+  widget_t* widget = widget_create(parent, &s_hour_weather_vtable, x, y, w, h);
+  hour_weather_t* hour_weather = HOUR_WEATHER(widget);
   return_value_if_fail(hour_weather != NULL, NULL);
-
-  widget_init(widget, parent, &s_hour_weather_vtable, x, y, w, h);
 
   hour_weather->weather_info = NULL;
   hour_weather->width = 30;
