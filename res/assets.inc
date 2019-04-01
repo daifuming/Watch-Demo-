@@ -6,6 +6,7 @@
 #include "assets/inc/styles/button.data"
 #include "assets/inc/styles/default.data"
 #include "assets/inc/styles/keyboard.data"
+#include "assets/inc/styles/set_aims.data"
 #include "assets/inc/ui/alarm_clock.data"
 #include "assets/inc/ui/alarm_list.data"
 #include "assets/inc/ui/application.data"
@@ -14,7 +15,8 @@
 #include "assets/inc/ui/circle_button_with_progress_test.data"
 #include "assets/inc/ui/day_week_test.data"
 #include "assets/inc/ui/digit_dial.data"
-#include "assets/inc/ui/health_circle_text.data"
+#include "assets/inc/ui/health.data"
+#include "assets/inc/ui/health_dialog.data"
 #include "assets/inc/ui/heart_rate.data"
 #include "assets/inc/ui/kb_ascii.data"
 #include "assets/inc/ui/kb_default.data"
@@ -28,6 +30,7 @@
 #include "assets/inc/ui/message.data"
 #include "assets/inc/ui/music_play.data"
 #include "assets/inc/ui/select_dial.data"
+#include "assets/inc/ui/set_aims.data"
 #include "assets/inc/ui/system_bar.data"
 #include "assets/inc/ui/weather.data"
 #ifdef WITH_STB_IMAGE
@@ -56,6 +59,9 @@
 #include "assets/inc/images/alarm_selected.res"
 #include "assets/inc/images/alarm_set.res"
 #include "assets/inc/images/backspace.res"
+#include "assets/inc/images/blue_dec.res"
+#include "assets/inc/images/blue_inc.res"
+#include "assets/inc/images/blue_ok.res"
 #include "assets/inc/images/button_gray.res"
 #include "assets/inc/images/button_green.res"
 #include "assets/inc/images/calander_down.res"
@@ -75,7 +81,15 @@
 #include "assets/inc/images/dot.res"
 #include "assets/inc/images/earth.res"
 #include "assets/inc/images/grabient.res"
+#include "assets/inc/images/green_dec.res"
+#include "assets/inc/images/green_inc.res"
+#include "assets/inc/images/green_ok.res"
+#include "assets/inc/images/health_change_aims.res"
+#include "assets/inc/images/health_duanlian.res"
+#include "assets/inc/images/health_huodong.res"
+#include "assets/inc/images/health_zhanli.res"
 #include "assets/inc/images/huxi.res"
+#include "assets/inc/images/hx_icon.res"
 #include "assets/inc/images/message_card_bg.res"
 #include "assets/inc/images/message_icon.res"
 #include "assets/inc/images/msg_bg.res"
@@ -88,6 +102,9 @@
 #include "assets/inc/images/music_player_point.res"
 #include "assets/inc/images/music_pre.res"
 #include "assets/inc/images/music_stop.res"
+#include "assets/inc/images/pink_dec.res"
+#include "assets/inc/images/pink_inc.res"
+#include "assets/inc/images/pink_ok.res"
 #include "assets/inc/images/progress_circle.res"
 #include "assets/inc/images/qingtian_48.res"
 #include "assets/inc/images/return_pink.res"
@@ -159,6 +176,9 @@ ret_t assets_init(void) {
   assets_manager_add(rm, image_alarm_selected);
   assets_manager_add(rm, image_alarm_set);
   assets_manager_add(rm, image_backspace);
+  assets_manager_add(rm, image_blue_dec);
+  assets_manager_add(rm, image_blue_inc);
+  assets_manager_add(rm, image_blue_ok);
   assets_manager_add(rm, image_button_gray);
   assets_manager_add(rm, image_button_green);
   assets_manager_add(rm, image_calander_down);
@@ -178,7 +198,15 @@ ret_t assets_init(void) {
   assets_manager_add(rm, image_dot);
   assets_manager_add(rm, image_earth);
   assets_manager_add(rm, image_grabient);
+  assets_manager_add(rm, image_green_dec);
+  assets_manager_add(rm, image_green_inc);
+  assets_manager_add(rm, image_green_ok);
+  assets_manager_add(rm, image_health_change_aims);
+  assets_manager_add(rm, image_health_duanlian);
+  assets_manager_add(rm, image_health_huodong);
+  assets_manager_add(rm, image_health_zhanli);
   assets_manager_add(rm, image_huxi);
+  assets_manager_add(rm, image_hx_icon);
   assets_manager_add(rm, image_message_card_bg);
   assets_manager_add(rm, image_message_icon);
   assets_manager_add(rm, image_msg_bg);
@@ -191,6 +219,9 @@ ret_t assets_init(void) {
   assets_manager_add(rm, image_music_player_point);
   assets_manager_add(rm, image_music_pre);
   assets_manager_add(rm, image_music_stop);
+  assets_manager_add(rm, image_pink_dec);
+  assets_manager_add(rm, image_pink_inc);
+  assets_manager_add(rm, image_pink_ok);
   assets_manager_add(rm, image_progress_circle);
   assets_manager_add(rm, image_qingtian_48);
   assets_manager_add(rm, image_return_pink);
@@ -211,6 +242,7 @@ ret_t assets_init(void) {
   assets_manager_add(rm, style_button);
   assets_manager_add(rm, style_default);
   assets_manager_add(rm, style_keyboard);
+  assets_manager_add(rm, style_set_aims);
   assets_manager_add(rm, ui_alarm_clock);
   assets_manager_add(rm, ui_alarm_list);
   assets_manager_add(rm, ui_application);
@@ -219,7 +251,8 @@ ret_t assets_init(void) {
   assets_manager_add(rm, ui_circle_button_with_progress_test);
   assets_manager_add(rm, ui_day_week_test);
   assets_manager_add(rm, ui_digit_dial);
-  assets_manager_add(rm, ui_health_circle_text);
+  assets_manager_add(rm, ui_health);
+  assets_manager_add(rm, ui_health_dialog);
   assets_manager_add(rm, ui_heart_rate);
   assets_manager_add(rm, ui_kb_ascii);
   assets_manager_add(rm, ui_kb_default);
@@ -233,6 +266,7 @@ ret_t assets_init(void) {
   assets_manager_add(rm, ui_message);
   assets_manager_add(rm, ui_music_play);
   assets_manager_add(rm, ui_select_dial);
+  assets_manager_add(rm, ui_set_aims);
   assets_manager_add(rm, ui_system_bar);
   assets_manager_add(rm, ui_weather);
   assets_manager_add(rm, strings_en_US);

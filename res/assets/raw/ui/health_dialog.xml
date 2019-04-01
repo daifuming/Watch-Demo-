@@ -1,0 +1,6 @@
+<dialog style="health_dialog" anim_hint="fade(duration=300)" name="health:longpress" x="c" y="m" w="100%" h="100%" >
+  <button name="dialog_bg" style="none" x="0" y="0" w="100%" h="100%"  >
+    <button name="record" style="health_dlg_record" x="c" y="60" w="120" h="120" />
+    <button name="set_aims" style="health_dlg_aims" x="c" y="bottom:60" w="120" h="120" />
+  </button>
+</dialog>

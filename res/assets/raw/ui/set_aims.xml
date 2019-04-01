@@ -1,0 +1,13 @@
+<window anim_hint="bottom_to_top" style="black" theme="set_aims" >
+  <button style="pink" name="setaims:return" x="10" y="20" w="100" h="16"  text="取消" />
+  <column x="c" y="m" w="-50" h="300" children_layout="default(r=4,c=1)" >
+    <label name="setaims:title" style="white" x="c" w="100%" h="50" text="更改每日活动目标" />
+    <row x="c"  w="100%" h="100" >
+      <button name="setaims:dec" style="pink_dec" x="30" y="m" w="54" h="54"/>
+      <label name="setaims:value" style="white_number" x="c" y="m" h="80%" w="100%" text="400" />
+      <button name="setaims:inc" style="pink_inc" x="right:30" y="m" w="54" h="54" />
+    </row>
+    <label name="setaims:cal" style="pink" x="c" w="100%" h="50" text="卡路里" />
+    <button name="setaims:ok" style="pink_ok" x="c" w="100%" h="100"  />
+  </column>
+</window>

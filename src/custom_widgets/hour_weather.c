@@ -67,7 +67,6 @@ static void draw_weather_icon(widget_t* widget, vgcanvas_t* vg, int32_t start, f
     memset(image_name, 0, 32);
     sprintf(image_name, "%d", hour_weather->weather[i]);
     widget_load_image(widget, image_name, &image);
-    // log_debug("load image: %s\n", image_name);
 
     vgcanvas_save(vg);
     vgcanvas_translate(vg, r*x_arr[i], r*y_arr[i]);

@@ -1,21 +1,8 @@
 <window anim_hint="htranslate" style="black" >
-  <slide_view x="0" y="0" w="100%" h="100%" style="dot">
-    <view x="0" y="0" w="100%" h="100%" children_layout="default(c=1,r=1,m=5)" >
+  <button style="icon" name="weather:return" x="10" y="0" w="100" h="16"  text="返回" />
+  <slide_view name="weather:slideview" x="40" y="40" w="80%" h="80%" style="dot">
+    <view name="weather:view" x="0" y="0" w="100%" h="100%" children_layout="default(c=1,r=1,m=5)" >
         <hour_weather   />
     </view>
-
-    <view x="0" y="0" w="100%" h="100%" children_layout="default(c=1,r=1,m=5)" >
-      <button text="button" />
-    </view>
-
-    <view x="0" y="0" w="100%" h="100%" children_layout="default(c=2,r=2,m=5)" >
-      <button text="button" />
-      <circle_progress name="open:AQI" mark="UAI"  
-         animation="value(from=0, to=45, duration=3000, easing=sin_inout)" />
-      <circle_button_with_progress name="open:music" image="music_icon"
-         animation="value(from=0, to=80, duration=3000, easing=sin_inout)" /> 
-      <view />
-    </view>
-
   </slide_view>
 </window>

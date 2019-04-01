@@ -1,0 +1,44 @@
+<window anim_hint="htranslate" style="black" >
+    <button style="icon" name="health:return" x="10" y="20" w="100" h="16"  text="返回" />
+    <slide_view name="health:slideview" x="c" y="m" w="-80" h="-80" >
+        <view name="health:view1" x="0" y="0" w="100%" h="100%" >
+            <button name="health:view1btn" style="none" x="0" y="0" w="100%" h="100%" enable_long_press="true" >
+                <health_circle name="health:all" x="c" y="m" w="100%" h="100%" width="40"
+                    animation="value_b(from=0, to=60, duration=3000, easing=sin_inout);value_m(from=0, to=40, duration=3000, easing=sin_inout);value_s(from=0, to=20, duration=3000, easing=sin_inout)" />
+                <image x="c" y="5" w="26" h="26" image="health_huodong" />
+                <image x="c" y="50" w="26" h="26" image="health_duanlian" />
+                <image x="c" y="90" w="26" h="26" image="health_zhanli" />
+            </button>
+        </view>
+            
+        <view x="0" y="0" w="100%" h="100%" >
+            <button name="health:view2btn" style="none" x="0" y="0" w="100%" h="100%" enable_long_press="true" >
+                <health_circle name="circle" x="c" y="m" w="-40" h="-40" width="40" only_big="true"/>
+                <column x="c" y="m" w="100%" h="40%" children_layout="default(r=2,c=1)" >
+                    <label name="value" style="health_value" />
+                    <label name="max" style="health_max"   />
+                </column>
+            </button>
+        </view>
+            
+        <view x="0" y="0" w="100%" h="100%" >
+            <button name="health:view3btn" style="none" x="0" y="0" w="100%" h="100%" enable_long_press="true" >
+                <health_circle name="circle" x="c" y="m" w="-40" h="-40" width="40" only_big="true" color_b="#C2EE11"/>
+                <column x="c" y="m" w="100%" h="40%" children_layout="default(r=2,c=1)" >
+                    <label name="value" style="health_value"  />
+                    <label name="max" style="health_max"   />
+                </column>
+            </button>
+        </view>
+
+        <view x="0" y="0" w="100%" h="100%" >
+            <button name="health:view4btn" style="none" x="0" y="0" w="100%" h="100%" enable_long_press="true" >
+                <health_circle name="circle" x="c" y="m" w="-40" h="-40" width="40" only_big="true" color_b="#09C7F7" />
+                <column x="c" y="m" w="100%" h="40%" children_layout="default(r=2,c=1)" >
+                    <label name="value" style="health_value"  />
+                    <label name="max" style="health_max"  />
+                </column>
+            </button>
+        </view>
+    </slide_view>
+</window>

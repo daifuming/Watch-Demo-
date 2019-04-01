@@ -27,6 +27,7 @@ static ret_t on_dial_long_pressed(void* ctx, event_t* e);
 ret_t on_open_calendar(void* ctx, event_t* e);
 ret_t on_open_alarm(void* ctx, event_t* e);
 ret_t on_open_weather(void* ctx, event_t* e);
+ret_t on_opne_health(void* ctx, event_t* e);
 
 /**
  * 为widget所有控件添加点击事件
@@ -65,7 +66,7 @@ static ret_t on_health(void* ctx, event_t* e){
 }
 
 
-static ret_t on_close_window(void* ctx, event_t* e){
+ret_t on_close_window(void* ctx, event_t* e) {
   widget_t* win = WIDGET(ctx);
   window_close(win);
 
@@ -102,12 +103,16 @@ static ret_t on_timer_switch_weather(const timer_info_t* timer) {
   return RET_REPEAT;
 }
 
-static void init_digit_dial(widget_t* widget) {
+/**
+ * 更新日期
+ */
+static ret_t on_timer_update_date(const timer_info_t* timer) {
+  widget_t* widget = timer->ctx;
+  char tmp_8[12] = {0};
   date_time_t date;
   date_time_init(&date);
   int32_t week = (date.day + 1 + 2 * date.month + 3 * (date.month + 1) / 5 + date.year + date.year / 4 - date.year / 100 + date.year / 400) % 7;
 
-  char tmp_8[12] = {0};
   switch (week)
   {
     case 0: tk_snprintf(tmp_8, 12, "%2d %s", date.day, "周日"); break;
@@ -120,26 +125,25 @@ static void init_digit_dial(widget_t* widget) {
     default:
       break;
   }
+  widget_set_text_utf8(widget, tmp_8);
 
-  widget_t* label = widget_lookup(widget, "digit_dial:date", TRUE);
-  widget_set_text_utf8(label, tmp_8);
-  
-  memset(tmp_8, 0, sizeof(tmp_8));
-  tk_snprintf(tmp_8, 12, "%02d:%02d", date.hour, date.minute);
-  label = widget_lookup(widget, "digit_dial:time", TRUE);
-  widget_set_text_utf8(label, tmp_8);
-  
-  widget_t* digit_dial = widget_lookup(widget, "digit_dial", TRUE);
-  widget_on(digit_dial, EVT_LONG_PRESS, on_dial_long_pressed, widget );
-
-  // 定时切换天气
-  widget_t* image_weather = widget_lookup(widget, "digit_dial:weather", TRUE);
-  if (image_weather) {
-    timer_add(on_timer_switch_weather, image_weather, 5000);
-  }
-  
+  return RET_REPEAT;
 }
 
+/**
+ * 更新时间
+ */
+static ret_t on_timer_update_clock(const timer_info_t* timer) {
+  widget_t* widget = timer->ctx;
+  date_time_t date;
+  date_time_init(&date);
+  char tmp_8[12] = {0};
+
+  tk_snprintf(tmp_8, 12, "%02d:%02d", date.hour, date.minute);
+  widget_set_text_utf8(widget, tmp_8);
+
+  return RET_REPEAT;
+}
 
 #include "custom_widgets/circle_progress.h"
 #include "custom_widgets/health_circle.h"
@@ -186,6 +190,7 @@ static void dial_add_widget(widget_t* widget, uint8_t type) {
       widget_set_name(label_date, "digit_dial:date");
       widget_set_self_layout(label_date, "default(x=right:33,y=0,w=100,h=50)");
       widget_use_style(label_date, "day_week");
+      widget_add_timer(label_date, on_timer_update_date, 1000);
 
       widget_t* image_weather_bg = image_create(widget, 0, 0, 0, 0);
       widget_set_self_layout(image_weather_bg, "default(x=33,y=50,w=80,h=80)");
@@ -194,15 +199,17 @@ static void dial_add_widget(widget_t* widget, uint8_t type) {
       widget_set_self_layout(image_weather, "default(x=c,y=m,w=48,h=48)");
       widget_set_name(image_weather, "digit_dial:weather");
       widget_set_prop_str(image_weather, "image", "taiyang_48");
+      widget_add_timer(image_weather, on_timer_switch_weather, 5000);
 
       widget_t* label_time = label_create(widget, 0, 0, 0, 0);
       widget_set_name(label_time, "digit_dial:time");
       widget_set_self_layout(label_time, "default(x=right:33,y=50,w=245,h=80)");
       widget_use_style(label_time, "digit_clock");
+      widget_add_timer(label_time, on_timer_update_clock, 1000);
 
-      widget_t* image_hx = image_create(widget, 0, 0, 0, 0);
-      widget_set_self_layout(image_hx, "default(x=33,y=287,w=80,h=80)");
-      widget_set_prop_str(image_hx, "image", "weather_icon_bg");
+      widget_t* image_hx_bg = image_create(widget, 0, 0, 0, 0);
+      widget_set_self_layout(image_hx_bg, "default(x=33,y=287,w=80,h=80)");
+      widget_set_prop_str(image_hx_bg, "image", "hx_icon");
 
       widget_t* circle_prog = circle_progress_create(widget, 0, 0, 0, 0);
       widget_set_self_layout(circle_prog, "default(x=c,y=287,w=80,h=80)");
@@ -213,7 +220,6 @@ static void dial_add_widget(widget_t* widget, uint8_t type) {
       widget_set_self_layout(image_sport, "default(x=right:33,y=287,w=80,h=80)");
       widget_set_prop_str(image_sport, "image", "weather_icon_bg");
 
-      init_digit_dial(widget->parent);
       break;
     }
     default: break;
@@ -337,7 +343,10 @@ static ret_t init_widget(void* ctx, const void* iter)
       } else if (tk_str_eq(name, "weather")) {
         widget_t* win = widget_get_window(widget);
         widget_on(widget, EVT_CLICK, on_open_weather, win);
-      } 
+      } else if (tk_str_eq(name, "sport")) {
+        widget_t* win = widget_get_window(widget);
+        widget_on(widget, EVT_CLICK, on_opne_health, win);
+      }
     }
   }
 

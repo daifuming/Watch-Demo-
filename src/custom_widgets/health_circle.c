@@ -58,6 +58,8 @@ ret_t health_circle_set_value_max_b(widget_t* widget, float_t value) {
   return_value_if_fail(health_circle != NULL, RET_BAD_PARAMS);
 
   health_circle->max_b = value;
+  event_t e = event_init(EVT_VALUE_CHANGED, widget);
+  widget_dispatch(widget, &e);
 
   return widget_invalidate(widget, NULL);
 }
@@ -67,6 +69,8 @@ ret_t health_circle_set_value_max_m(widget_t* widget, float_t value) {
   return_value_if_fail(health_circle != NULL, RET_BAD_PARAMS);
 
   health_circle->max_m = value;
+  event_t e = event_init(EVT_VALUE_CHANGED, widget);
+  widget_dispatch(widget, &e);
 
   return widget_invalidate(widget, NULL);
 }
@@ -76,6 +80,8 @@ ret_t health_circle_set_value_max_s(widget_t* widget, float_t value) {
   return_value_if_fail(health_circle != NULL, RET_BAD_PARAMS);
 
   health_circle->max_s = value;
+  event_t e = event_init(EVT_VALUE_CHANGED, widget);
+  widget_dispatch(widget, &e);
 
   return widget_invalidate(widget, NULL);
 }
@@ -116,6 +122,15 @@ ret_t health_circle_set_width(widget_t* widget, float_t width) {
   return widget_invalidate(widget, NULL);
 }
 
+ret_t health_circle_set_only_big(widget_t* widget, bool_t v) {
+  health_circle_t* health_circle = HEALTH_CIRCLE(widget);
+  return_value_if_fail(health_circle != NULL, RET_BAD_PARAMS);
+
+  health_circle->only_big = v;
+
+  return widget_invalidate(widget, NULL);
+}
+
 static ret_t health_circle_on_paint_self(widget_t* widget, canvas_t* c) {
   vgcanvas_t* vg = canvas_get_vgcanvas(c);
   health_circle_t* health_circle = HEALTH_CIRCLE(widget);
@@ -146,45 +161,48 @@ static ret_t health_circle_on_paint_self(widget_t* widget, canvas_t* c) {
   vgcanvas_stroke(vg);
   vgcanvas_restore(vg);
 
-  // draw middle circle
-  vgcanvas_save(vg);
-  color_t bg_color_m = color_init(color_r(&health_circle->color_m)/4,
-                                  color_g(&health_circle->color_m)/4,
-                                  color_b(&health_circle->color_m)/4,
-                                  color_a(&health_circle->color_m));
-  vgcanvas_set_stroke_color(vg, bg_color_m);
-  vgcanvas_begin_path(vg);
-  vgcanvas_arc(vg, 0, 0, rr-health_circle->width*1.5-2, 0, 6.3, FALSE);
-  vgcanvas_stroke(vg);
+  if (!health_circle->only_big) {
+    // draw middle circle
+    vgcanvas_save(vg);
+    color_t bg_color_m = color_init(color_r(&health_circle->color_m)/4,
+                                    color_g(&health_circle->color_m)/4,
+                                    color_b(&health_circle->color_m)/4,
+                                    color_a(&health_circle->color_m));
+    vgcanvas_set_stroke_color(vg, bg_color_m);
+    vgcanvas_begin_path(vg);
+    vgcanvas_arc(vg, 0, 0, rr-health_circle->width*1.5-2, 0, 6.3, FALSE);
+    vgcanvas_stroke(vg);
 
-  vgcanvas_set_stroke_color(vg, health_circle->color_m);
-  vgcanvas_begin_path(vg);
-  vgcanvas_arc(vg, 0, 0, rr-health_circle->width*1.5-2, -0.5*M_PI,
-               (health_circle->value_m/health_circle->max_m) * 2*M_PI - 0.5*M_PI,
-               FALSE);
-  vgcanvas_stroke(vg);
+    vgcanvas_set_stroke_color(vg, health_circle->color_m);
+    vgcanvas_begin_path(vg);
+    vgcanvas_arc(vg, 0, 0, rr-health_circle->width*1.5-2, -0.5*M_PI,
+                (health_circle->value_m/health_circle->max_m) * 2*M_PI - 0.5*M_PI,
+                FALSE);
+    vgcanvas_stroke(vg);
+    vgcanvas_restore(vg);
+
+    // draw small circle
+    vgcanvas_save(vg);
+    color_t bg_color_s = color_init(color_r(&health_circle->color_s)/4,
+                                    color_g(&health_circle->color_s)/4,
+                                    color_b(&health_circle->color_s)/4,
+                                    color_a(&health_circle->color_s));
+    vgcanvas_set_stroke_color(vg, bg_color_s);
+    vgcanvas_begin_path(vg);
+    vgcanvas_arc(vg, 0, 0, rr-health_circle->width*2.5-4, 0, 6.3, FALSE);
+    vgcanvas_stroke(vg);
+
+    vgcanvas_set_stroke_color(vg, health_circle->color_s);
+    vgcanvas_begin_path(vg);
+    vgcanvas_arc(vg, 0, 0, rr-health_circle->width*2.5-4, -0.5*M_PI,
+                (health_circle->value_s/health_circle->max_s) * 2*M_PI - 0.5*M_PI,
+                FALSE);
+    vgcanvas_stroke(vg);
+    vgcanvas_restore(vg);
+    
+  }
   vgcanvas_restore(vg);
-
-  // draw small circle
-  vgcanvas_save(vg);
-  color_t bg_color_s = color_init(color_r(&health_circle->color_s)/4,
-                                  color_g(&health_circle->color_s)/4,
-                                  color_b(&health_circle->color_s)/4,
-                                  color_a(&health_circle->color_s));
-  vgcanvas_set_stroke_color(vg, bg_color_s);
-  vgcanvas_begin_path(vg);
-  vgcanvas_arc(vg, 0, 0, rr-health_circle->width*2.5-4, 0, 6.3, FALSE);
-  vgcanvas_stroke(vg);
-
-  vgcanvas_set_stroke_color(vg, health_circle->color_s);
-  vgcanvas_begin_path(vg);
-  vgcanvas_arc(vg, 0, 0, rr-health_circle->width*2.5-4, -0.5*M_PI,
-               (health_circle->value_s/health_circle->max_s) * 2*M_PI - 0.5*M_PI,
-               FALSE);
-  vgcanvas_stroke(vg);
-  vgcanvas_restore(vg);
-  vgcanvas_restore(vg);
-
+  
   return RET_OK;
 }
 
@@ -211,6 +229,8 @@ static ret_t health_circle_on_set_prop(widget_t* widget, const char* name, const
     return health_circle_set_color_s(widget, value_str(v));
   } else if (tk_str_eq(name, HEALTH_CIRCLE_PROP_WIDTH)) {
     return health_circle_set_width(widget, value_float(v));
+  } else if (tk_str_eq(name, HEALTH_CIRCLE_PROP_ONLY_BIG)) {
+    return health_circle_set_only_big(widget, value_bool(v));
   }
 
   return RET_NOT_FOUND;
@@ -237,6 +257,9 @@ static ret_t health_circle_on_get_prop(widget_t* widget, const char* name, value
     return RET_OK;
   } else if (tk_str_eq(name, HEALTH_CIRCLE_PROP_VALUE_S)) {
     value_set_float(v, health_circle->value_s);
+    return RET_OK;
+  } else if (tk_str_eq(name, HEALTH_CIRCLE_PROP_ONLY_BIG)) {
+    value_set_bool(v, health_circle->only_big);
     return RET_OK;
   }
 
@@ -279,6 +302,7 @@ widget_t* health_circle_create(widget_t* parent, xy_t x, xy_t y, wh_t w, wh_t h)
   health_circle->color_m = color_init(0xC2, 0xEE, 0x11, 0xFF); // "#C2EE11"
   health_circle->color_s = color_init(0x09, 0xC7, 0xF7, 0xFF); // "#09C7F7"
   health_circle->width = 40;
+  health_circle->only_big = FALSE;
   
   return widget;
 }
