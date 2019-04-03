@@ -187,7 +187,28 @@ ret_t circle_progress_set_mark(widget_t*widget, const char* str) {
   return widget_invalidate(widget, NULL);
 }
 
-
+static ret_t circle_progress_on_event(widget_t* widget, event_t* e) {
+  uint16_t type = e->type;
+  circle_progress_t* cirle_progress = CIRCLE_PROGRESS(widget);
+  switch (type)
+  {
+    case EVT_POINTER_DOWN: {
+      cirle_progress->pressed = TRUE;
+      break;
+    }
+    case EVT_POINTER_UP: {
+      pointer_event_t evt = *(pointer_event_t*)e;
+      if (cirle_progress->pressed == TRUE && widget_is_point_in(widget, evt.x, evt.y, FALSE)) {
+        evt.e = event_init(EVT_CLICK, widget->parent);
+        widget_dispatch(widget, (event_t*)&evt);
+        cirle_progress->pressed = FALSE;
+      }
+      break;
+    }
+    default:
+      break;
+  }
+}
 
 static ret_t circle_progress_on_set_prop(widget_t* widget, const char* name, const value_t* v) {
   if (tk_str_eq(name, CIRCLE_PROGRESS_PROP_VALUE)) {
@@ -245,6 +266,7 @@ static const widget_vtable_t s_circle_progress_vtable = {.size = sizeof(circle_p
                                                          .type = WIDGET_TYPE_CIRCLE_PROGRESS,
                                                          .create = circle_progress_create,
                                                          .on_paint_self = circle_progress_on_paint_self,
+                                                         .on_event = circle_progress_on_event,
                                                          .set_prop = circle_progress_on_set_prop,
                                                          .get_prop = circle_progress_on_get_prop,
                                                          .on_destroy = circle_progress_on_destroy};
@@ -266,6 +288,7 @@ widget_t* circle_progress_create(widget_t* parent, xy_t x, xy_t y, wh_t w, wh_t 
   circle_progress->value_color = color_init(0xff, 0xff, 0xff, 0xff);  // #ffffff
   circle_progress->mark_color = color_init(0x08, 0xe7, 0x08, 0xff);   // #08e708
   circle_progress->mark = NULL;
+  circle_progress->pressed = FALSE;
 
   return widget;
 }

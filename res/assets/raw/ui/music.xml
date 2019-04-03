@@ -1,0 +1,17 @@
+<window anim_hint="htranslate" theme="set_aims" style="black">
+  <button style="pink" name="music:return" x="10" y="20" w="100" h="16"  text="取消" />
+ 
+  <label style="white" x="c" y="50" h="40" w="100%" name="music:song" text="追风筝的孩子" />
+  <label style="white" x="c" y="90" h="40" w="100%" name="music:author" text="陈楚生" />
+  <row x="c" y="130" h="110" w="100%" children_layout="default(r=1,c=3)" >
+    <button style="music_pre" name="music:pre" />
+    <button style="music_play" name="music:pause_play" />
+    <button style="music_next" name="music:next" />
+  </row>
+  <row x="c" y="bottom:30" h="80" w="100%" children_layout="default(r=1,c=3)" >
+    <button style="music_playlist" name="music:mode" />
+    <circle_button_with_progress name="music:vol" image="music_vol"  w="80" h="80" /> 
+    <button style="music_list" name="music:list" />
+  </row>
+
+</window>

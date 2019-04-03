@@ -6,6 +6,26 @@
 #include "circle_button_with_progress.h"
 
 static ret_t circle_button_with_progress_on_event(widget_t* widget, event_t* e) {
+  uint16_t type = e->type;
+  circle_button_with_progress_t* circle_button_with_progress = CIRCLE_BUTTON_WITH_PROGRESS(widget);
+  switch (type)
+  {
+    case EVT_POINTER_DOWN: {
+      circle_button_with_progress->pressed = TRUE;
+      break;
+    }
+    case EVT_POINTER_UP: {
+      pointer_event_t evt = *(pointer_event_t*)e;
+      if (circle_button_with_progress->pressed == TRUE && widget_is_point_in(widget, evt.x, evt.y, FALSE)) {
+        evt.e = event_init(EVT_CLICK, widget->parent);
+        widget_dispatch(widget, (event_t*)&evt);
+        circle_button_with_progress->pressed = FALSE;
+      }
+      break;
+    }
+    default:
+      break;
+  }
   return RET_OK;
 }
 
@@ -339,6 +359,7 @@ widget_t* circle_button_with_progress_create(widget_t* parent, xy_t x, xy_t y, w
   circle_button_with_progress->progress_color = color_init(0xff, 0x00, 0x00, 0xff);
   circle_button_with_progress->width = 6;
   circle_button_with_progress->counter_clock_wise = FALSE;
+  circle_button_with_progress->pressed = FALSE;
 
   return widget;
 }

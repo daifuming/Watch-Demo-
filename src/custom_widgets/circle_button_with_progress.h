@@ -98,6 +98,11 @@ typedef struct _circle_button_with_progress_t{
 	 * 进度条方向为顺时针或逆时针（缺省值为TRUE顺时针）
 	 */
 	bool_t counter_clock_wise;
+
+	/**
+	 * 控件是否被按下
+	 */
+	bool_t pressed;
 } circle_button_with_progress_t;
 
 

@@ -1,0 +1,8 @@
+<button>
+   <style name="pink" border_color="#000000"  text_color="#FA1150">
+    <normal     bg_color="#000000" />
+    <pressed    bg_color="#000000" x_offset="1" y_offset="1"/>
+    <over       bg_color="#000000" />
+    <disable    bg_color="#000000" text_color="#d0d0d0" />
+  </style>
+</button>

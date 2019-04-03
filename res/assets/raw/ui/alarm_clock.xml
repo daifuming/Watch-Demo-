@@ -1,5 +1,5 @@
 <window anim_hint="htranslate" style="black" theme="button">
-  <button name="alarm:bg_button" style="none" x="0" y="0" w="100%" h="100%" />
+  <gusture name="alarm:bg_button" x="0" y="0" w="100%" h="100%" >
   <image name="alarm:bg" image="alarm_clock_bg" x="c" y="30" w="270" h="270" >
     <image name="alarm:point" image="alarm_point" x="c" y="10" w="6" h="6" />
     <image name="alarm:am" image="alarm_am_select" x="c" y="55" w="40" h="30" clickable="true" />
@@ -14,4 +14,5 @@
 
   <button name="alarm:cancel" style="alarm_cancel" x="40" y="bottom" w="160" h="100"  />
   <button name="alarm:set" style="alarm_set" x="200" y="bottom" w="160" h="100" />
+  </gusture>
 </window>

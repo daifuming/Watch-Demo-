@@ -21,13 +21,15 @@
 
 #include "awtk.h"
 #include "tkc/date_time.h"
+#include "custom_widgets/gusture.h"
 
 static ret_t init_widget(void* ctx, const void* iter);
 static ret_t on_dial_long_pressed(void* ctx, event_t* e);
 ret_t on_open_calendar(void* ctx, event_t* e);
 ret_t on_open_alarm(void* ctx, event_t* e);
 ret_t on_open_weather(void* ctx, event_t* e);
-ret_t on_opne_health(void* ctx, event_t* e);
+ret_t on_open_health(void* ctx, event_t* e);
+ret_t on_open_music(void* ctx, event_t* e);
 
 /**
  * 为widget所有控件添加点击事件
@@ -345,7 +347,19 @@ static ret_t init_widget(void* ctx, const void* iter)
         widget_on(widget, EVT_CLICK, on_open_weather, win);
       } else if (tk_str_eq(name, "sport")) {
         widget_t* win = widget_get_window(widget);
-        widget_on(widget, EVT_CLICK, on_opne_health, win);
+        widget_on(widget, EVT_CLICK, on_open_health, win);
+      } else if (tk_str_eq(name, "music")) {
+        widget_t* win = widget_get_window(widget);
+        widget_on(widget, EVT_CLICK, on_open_music, win);
+      } else if (tk_str_eq(name, "health")) {
+        widget_t* win = widget_get_window(widget); 
+        widget_on(widget, EVT_CLICK, on_open_health, win); 
+      } else if (tk_str_eq(name, "AQI")) {
+        widget_t* win = widget_get_window(widget); 
+        widget_on(widget, EVT_CLICK, on_open_weather, win); 
+      } else if (tk_str_eq(name, "music")) {
+        widget_t* win = widget_get_window(widget);
+        widget_on(widget, EVT_CLICK, on_open_music, win);
       }
     }
   }

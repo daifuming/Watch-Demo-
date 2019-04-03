@@ -206,6 +206,29 @@ static ret_t health_circle_on_paint_self(widget_t* widget, canvas_t* c) {
   return RET_OK;
 }
 
+static ret_t health_circle_on_event(widget_t* widget, event_t* e) {
+  uint16_t type = e->type;
+  health_circle_t* health_circle = HEALTH_CIRCLE(widget);
+  switch (type)
+  {
+    case EVT_POINTER_DOWN: {
+      health_circle->pressed = TRUE;
+      break;
+    }
+    case EVT_POINTER_UP: {
+      pointer_event_t evt = *(pointer_event_t*)e;
+      if (health_circle->pressed == TRUE && widget_is_point_in(widget, evt.x, evt.y, FALSE)) {
+        evt.e = event_init(EVT_CLICK, widget->parent);
+        widget_dispatch(widget, (event_t*)&evt);
+        health_circle->pressed = FALSE;
+      }
+      break;
+    }
+    default:
+      break;
+  }
+}
+
 static ret_t health_circle_on_set_prop(widget_t* widget, const char* name, const value_t* v) {
   return_value_if_fail(widget != NULL && name != NULL && v != NULL, RET_BAD_PARAMS);
 
@@ -281,6 +304,7 @@ static const widget_vtable_t s_health_circle_vtable = {.size = sizeof(health_cir
                                                        .clone_properties = s_health_circle_clone_properties,
                                                        .create = health_circle_create,
                                                        .on_paint_self = health_circle_on_paint_self,
+                                                       .on_event = health_circle_on_event,
                                                        .get_prop = health_circle_on_get_prop,
                                                        .set_prop = health_circle_on_set_prop};
 
@@ -303,6 +327,7 @@ widget_t* health_circle_create(widget_t* parent, xy_t x, xy_t y, wh_t w, wh_t h)
   health_circle->color_s = color_init(0x09, 0xC7, 0xF7, 0xFF); // "#09C7F7"
   health_circle->width = 40;
   health_circle->only_big = FALSE;
+  health_circle->pressed = FALSE;
   
   return widget;
 }

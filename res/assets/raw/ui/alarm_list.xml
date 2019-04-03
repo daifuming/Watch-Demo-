@@ -1,8 +1,9 @@
 <window anim_hint="top_to_bottom" style="black" >
-  <button style="none" x="0" y="0" h="100%" w="100%" name="alarmlist:bg_button" />
+  <gusture  x="0" y="0" h="100%" w="100%" name="alarmlist:bg_button" >
   <list_view x="c"  y="25" w="336" h="-50" item_height="100">
     <scroll_view name="alarmlist:view" x="0"  y="0" w="100%" h="100%">
     </scroll_view>
     <scroll_bar_m name="bar" x="right" y="0" w="6" h="100%" value="0"/>
   </list_view>
+  </gusture>
 </window>

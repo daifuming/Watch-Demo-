@@ -27,6 +27,7 @@ typedef struct _circle_progress_t{
   color_t mark_color;
 
   char* mark;
+  bool_t pressed;
 } circle_progress_t;
 
 widget_t* circle_progress_create(widget_t* parent, xy_t x, xy_t y, wh_t w, wh_t h);

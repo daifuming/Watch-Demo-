@@ -6,15 +6,12 @@
 #include "assets/inc/styles/button.data"
 #include "assets/inc/styles/default.data"
 #include "assets/inc/styles/keyboard.data"
+#include "assets/inc/styles/music.data"
 #include "assets/inc/styles/set_aims.data"
 #include "assets/inc/ui/alarm_clock.data"
 #include "assets/inc/ui/alarm_list.data"
 #include "assets/inc/ui/application.data"
 #include "assets/inc/ui/calendar.data"
-#include "assets/inc/ui/circle_button_test.data"
-#include "assets/inc/ui/circle_button_with_progress_test.data"
-#include "assets/inc/ui/day_week_test.data"
-#include "assets/inc/ui/digit_dial.data"
 #include "assets/inc/ui/health.data"
 #include "assets/inc/ui/health_dialog.data"
 #include "assets/inc/ui/heart_rate.data"
@@ -28,6 +25,7 @@
 #include "assets/inc/ui/kb_uint.data"
 #include "assets/inc/ui/main.data"
 #include "assets/inc/ui/message.data"
+#include "assets/inc/ui/music.data"
 #include "assets/inc/ui/music_play.data"
 #include "assets/inc/ui/select_dial.data"
 #include "assets/inc/ui/set_aims.data"
@@ -95,13 +93,21 @@
 #include "assets/inc/images/msg_bg.res"
 #include "assets/inc/images/music-1.res"
 #include "assets/inc/images/music.res"
+#include "assets/inc/images/music_btn_bg.res"
 #include "assets/inc/images/music_icon.res"
+#include "assets/inc/images/music_list.res"
+#include "assets/inc/images/music_loop.res"
 #include "assets/inc/images/music_next.res"
+#include "assets/inc/images/music_play.res"
 #include "assets/inc/images/music_player_bar.res"
 #include "assets/inc/images/music_player_bg.res"
 #include "assets/inc/images/music_player_point.res"
+#include "assets/inc/images/music_playlist.res"
 #include "assets/inc/images/music_pre.res"
+#include "assets/inc/images/music_ramd.res"
+#include "assets/inc/images/music_rand.res"
 #include "assets/inc/images/music_stop.res"
+#include "assets/inc/images/music_vol.res"
 #include "assets/inc/images/pink_dec.res"
 #include "assets/inc/images/pink_inc.res"
 #include "assets/inc/images/pink_ok.res"
@@ -212,13 +218,21 @@ ret_t assets_init(void) {
   assets_manager_add(rm, image_msg_bg);
   assets_manager_add(rm, image_music-1);
   assets_manager_add(rm, image_music);
+  assets_manager_add(rm, image_music_btn_bg);
   assets_manager_add(rm, image_music_icon);
+  assets_manager_add(rm, image_music_list);
+  assets_manager_add(rm, image_music_loop);
   assets_manager_add(rm, image_music_next);
+  assets_manager_add(rm, image_music_play);
   assets_manager_add(rm, image_music_player_bar);
   assets_manager_add(rm, image_music_player_bg);
   assets_manager_add(rm, image_music_player_point);
+  assets_manager_add(rm, image_music_playlist);
   assets_manager_add(rm, image_music_pre);
+  assets_manager_add(rm, image_music_ramd);
+  assets_manager_add(rm, image_music_rand);
   assets_manager_add(rm, image_music_stop);
+  assets_manager_add(rm, image_music_vol);
   assets_manager_add(rm, image_pink_dec);
   assets_manager_add(rm, image_pink_inc);
   assets_manager_add(rm, image_pink_ok);
@@ -242,15 +256,12 @@ ret_t assets_init(void) {
   assets_manager_add(rm, style_button);
   assets_manager_add(rm, style_default);
   assets_manager_add(rm, style_keyboard);
+  assets_manager_add(rm, style_music);
   assets_manager_add(rm, style_set_aims);
   assets_manager_add(rm, ui_alarm_clock);
   assets_manager_add(rm, ui_alarm_list);
   assets_manager_add(rm, ui_application);
   assets_manager_add(rm, ui_calendar);
-  assets_manager_add(rm, ui_circle_button_test);
-  assets_manager_add(rm, ui_circle_button_with_progress_test);
-  assets_manager_add(rm, ui_day_week_test);
-  assets_manager_add(rm, ui_digit_dial);
   assets_manager_add(rm, ui_health);
   assets_manager_add(rm, ui_health_dialog);
   assets_manager_add(rm, ui_heart_rate);
@@ -264,6 +275,7 @@ ret_t assets_init(void) {
   assets_manager_add(rm, ui_kb_uint);
   assets_manager_add(rm, ui_main);
   assets_manager_add(rm, ui_message);
+  assets_manager_add(rm, ui_music);
   assets_manager_add(rm, ui_music_play);
   assets_manager_add(rm, ui_select_dial);
   assets_manager_add(rm, ui_set_aims);

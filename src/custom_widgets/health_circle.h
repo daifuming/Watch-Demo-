@@ -27,6 +27,7 @@ typedef struct _health_circle_t {
 
   float_t width;
   bool_t only_big;
+  bool_t pressed;
 } health_circle_t;
 
 widget_t* health_circle_create(widget_t* parent, xy_t x, xy_t y, wh_t w, wh_t h);

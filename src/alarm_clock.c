@@ -10,6 +10,7 @@
 
 #include <math.h>
 #include "awtk.h"
+#include "custom_widgets/gusture.h"
 
 #define ALARM_GET_MINUTE(alarm) ((alarm)&0x00ff)
 #define ALARM_GET_HOUR(alarm) (((alarm)&0x0f00)>>8)

@@ -1,5 +1,5 @@
-<window anim_hint="top_to_bottom" style="black" >
-  <button style="none" x="0" y="0" h="100%" w="100%" name="message_window" />
+<window anim_hint="slide_down(start_alpha=0, end_alpha=255)" style="black" >
+  <gusture  x="0" y="0" h="100%" w="100%" name="message_window" >
   <list_view x="c"  y="top" w="336" h="-50" item_height="220">
     <scroll_view name="view" x="0"  y="0" w="100%" h="100%">
       <list_item style="odd" children_layout="default(rows=1,cols=0)">
@@ -17,4 +17,5 @@
     </scroll_view>
     <scroll_bar_m name="bar" x="right" y="0" w="6" h="100%" value="0"/>
   </list_view>
+  <gusture>
 </window>

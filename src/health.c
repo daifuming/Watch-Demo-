@@ -1,10 +1,87 @@
 #include "awtk.h"
 #include "custom_widgets/health_circle.h"
 
+widget_t* health_win = NULL;
+
 /**
  * 打开每周摘要窗口
  */
 
+/**
+ * Label文本的数值 + offset
+ */
+static ret_t label_add(widget_t* label, int32_t offset) {
+  if (label) {
+    int32_t val = 0;
+    if (wstr_to_int(&(label->text), &val) == RET_OK) {
+      char text[32];
+      val += offset;
+      val = tk_max(0, tk_min(val, 1000));
+      tk_snprintf(text, sizeof(text), "%d", val);
+      widget_set_text_utf8(label, text);
+
+      return RET_OK;
+    }
+  }
+
+  return RET_FAIL;
+}
+
+/**
+ * 点击inc按钮，数值增大
+ */
+static ret_t on_setaims_inc(void* ctx, event_t* e) {
+  widget_t* win = WIDGET(ctx);
+  widget_t* label = widget_lookup(win, "setaims:value", TRUE);
+  if (label) {
+    return label_add(label, 1);
+  }
+  
+  return RET_NOT_FOUND;
+}
+
+/**
+ * 点击dec按钮，数值减小
+ */
+static ret_t on_setaims_dec(void* ctx, event_t* e) {
+  widget_t* win = WIDGET(ctx);
+  widget_t* label = widget_lookup(win, "setaims:value", TRUE);
+  if (label) {
+    return label_add(label, -1);
+  }
+  
+  return RET_NOT_FOUND;
+}
+
+/**
+ * 点击OK按钮，设置新的范围
+ */
+static ret_t on_setaims_ok(void* ctx, event_t* e) {
+  widget_t* health_circle = widget_lookup(health_win, "health:all", TRUE);
+  widget_t* button = e->target;
+  widget_t* label = widget_lookup(button->parent, "setaims:value", TRUE);
+  return_value_if_fail(health_win != NULL && health_circle != NULL && label != NULL, RET_FAIL);
+
+  int index = (int)ctx;
+  value_t v;
+  widget_get_prop(label, "text", &v);
+  switch (index)
+  {
+    case 0:
+      widget_set_prop(health_circle, HEALTH_CIRCLE_PROP_MAX_B, &v);
+      break;
+    case 1:
+      widget_set_prop(health_circle, HEALTH_CIRCLE_PROP_MAX_M, &v);
+      break;
+    case 2:
+      widget_set_prop(health_circle, HEALTH_CIRCLE_PROP_MAX_S, &v);
+      break;
+    default:
+      break;
+  }
+  
+  return RET_OK;
+}
 
 static ret_t init_widget(void* ctx, const void* iter);
 /**
@@ -90,7 +167,8 @@ static ret_t on_close_window(void* ctx, event_t* e) {
 
 
 /**
- * 健康圆环数据发生改变时（如更改了活动目标/数值），在此函数更新其他三个view中圆环的数据
+ * 健康圆环数据发生改变时（如更改了活动目标/数值）
+ * 在此函数更新其他三个view中圆环的数据
  */
 static ret_t on_update_others(void* ctx, event_t* e) {
   widget_t* win = WIDGET(ctx);
@@ -181,13 +259,16 @@ static ret_t init_widget(void* ctx, const void* iter) {
         widget_set_text_utf8(widget, title[index]);
       } else if (tk_str_eq(name, "dec")) {
         widget_use_style(widget, dec[index]);
+        widget_on(widget, EVT_CLICK, on_setaims_dec, win);
       } else if (tk_str_eq(name, "inc")) {
         widget_use_style(widget, inc[index]);
+        widget_on(widget, EVT_CLICK, on_setaims_inc, win);
       } else if (tk_str_eq(name, "cal")) {
         widget_use_style(widget, button_label_style[index]);
       } else if (tk_str_eq(name, "ok")) {
         widget_use_style(widget, ok[index]);
-      }
+        widget_on(widget, EVT_CLICK, on_setaims_ok, (void*)index);
+      } 
     }
   }
 
@@ -198,10 +279,10 @@ static void init_children_widget(widget_t *widget){
   widget_foreach(widget, init_widget, widget);
 }  
 
-ret_t on_opne_health(void* ctx, event_t* e) {
-  widget_t* win = window_open("health");
-  if (win) {
-    init_children_widget(win);
+ret_t on_open_health(void* ctx, event_t* e) {
+  health_win = window_open("health");
+  if (health_win) {
+    init_children_widget(health_win);
     return RET_OK;
   }
   return RET_FAIL;

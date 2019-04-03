@@ -80,6 +80,55 @@
     <over       bg_color="#000000" />
     <disable    bg_color="#000000" text_color="#d0d0d0" />
   </style>
+
+  <style name="music_next">
+    <normal      bg_image="music_next" />
+    <pressed     bg_image="music_next" />
+    <over        bg_image="music_next" />
+  </style>
+
+  <style name="music_pre">
+    <normal      bg_image="music_pre" />
+    <pressed     bg_image="music_pre" />
+    <over        bg_image="music_pre" />
+  </style>
+
+  <style name="music_stop">
+    <normal      bg_image="music_stop" />
+    <pressed     bg_image="music_stop" />
+    <over        bg_image="music_stop" />
+  </style>
+
+  <style name="music_play">
+    <normal      bg_image="music_play" />
+    <pressed     bg_image="music_play" />
+    <over        bg_image="music_play" />
+  </style>
+
+  <style name="music_list">
+    <normal      bg_image="music_list" />
+    <pressed     bg_image="music_list" />
+    <over        bg_image="music_list" />
+  </style>
+
+  <style name="music_loop">
+    <normal      bg_image="music_loop" />
+    <pressed     bg_image="music_loop" />
+    <over        bg_image="music_loop" />
+  </style>
+
+  <style name="music_playlist">
+    <normal      bg_image="music_playlist" />
+    <pressed     bg_image="music_playlist" />
+    <over        bg_image="music_playlist" />
+  </style>
+
+  <style name="music_rand">
+    <normal      bg_image="music_rand" />
+    <pressed     bg_image="music_rand" />
+    <over        bg_image="music_rand" />
+  </style>
+
 </button>
 
 <label>

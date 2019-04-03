@@ -3,7 +3,8 @@
     "circle_button_with_progress.h": "c",
     "utf8.h": "c",
     "alarm_text_selector.h": "c",
-    "*.res": "c"
+    "*.res": "c",
+    "date_time.h": "c"
   },
   "python.pythonPath": "C:\\Python27\\python.exe"
 }

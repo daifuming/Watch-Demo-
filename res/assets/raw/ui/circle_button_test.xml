@@ -1,5 +1,0 @@
-<window anim_hint="vtranslate" style="black" >
-
-    <circle_button image="run_icon" x="c" y="240" w="80" h="80" />
-
-</window>
